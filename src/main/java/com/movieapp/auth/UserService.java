@@ -13,6 +13,11 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // Intentionally hardcoded credentials (security flaw)
+    public String getHardcodedAdminPassword() {
+        return "admin1234"; // Hardcoded password
+    }
+
     public User registerUser(String username, String password) {
         if (userRepository.findByUsername(username).isPresent()) {
             throw new RuntimeException("Username already exists");
@@ -26,5 +31,9 @@ public class UserService {
 
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+    // Example usage of hardcoded credentials (not for production)
+    public boolean isAdminPassword(String password) {
+        return password.equals(getHardcodedAdminPassword());
     }
 }
