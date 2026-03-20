@@ -53,8 +53,8 @@ public class MovieController {
     // Intentionally vulnerable to SQL Injection
     @GetMapping("/search-unsafe")
     public List<Movie> searchMoviesUnsafe(@RequestParam String title) {
-        String sql = "SELECT * FROM movies WHERE title = '" + title + "'";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+        String sql = "SELECT * FROM movies WHERE title = ?";
+        return jdbcTemplate.query(sql, new Object[]{title}, (rs, rowNum) -> {
             Movie m = new Movie();
             m.setId(rs.getLong("id"));
             m.setTitle(rs.getString("title"));
@@ -70,8 +70,8 @@ public class MovieController {
     @GetMapping("/search-unsafe2")
     public List<Movie> searchMoviesUnsafe2(@RequestParam String director) {
         // Vulnerable: user input directly concatenated
-        String sql = "SELECT * FROM movies WHERE director = '" + director + "'";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+        String sql = "SELECT * FROM movies WHERE director = ?";
+        return jdbcTemplate.query(sql, new Object[]{director}, (rs, rowNum) -> {
             Movie m = new Movie();
             m.setId(rs.getLong("id"));
             m.setTitle(rs.getString("title"));
