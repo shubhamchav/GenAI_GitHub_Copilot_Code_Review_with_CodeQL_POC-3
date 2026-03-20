@@ -38,6 +38,17 @@ public class AnotherBuggySample {
         }
     }
 
+    // New insecure deserialization method (static, public)
+    public static void insecureDeserializationBug2(byte[] data) {
+        try {
+            java.io.ObjectInputStream ois = new java.io.ObjectInputStream(new java.io.ByteArrayInputStream(data));
+            Object obj = ois.readObject(); // Insecure: deserializing untrusted data
+            System.out.println("[Bug2] Deserialized object: " + obj);
+        } catch (Exception e) {
+            System.out.println("[Bug2] Deserialization error: " + e.getMessage());
+        }
+    }
+
     // Simulate untrusted serialized data (for demo only)
     private byte[] getUntrustedSerializedData() {
         // In a real attack, this could be attacker-controlled input

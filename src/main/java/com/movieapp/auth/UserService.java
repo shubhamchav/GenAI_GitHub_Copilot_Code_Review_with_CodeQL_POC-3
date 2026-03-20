@@ -18,6 +18,11 @@ public class UserService {
         return "admin1234"; // Hardcoded password
     }
 
+    // New hardcoded API key (security flaw)
+    public String getHardcodedApiKey() {
+        return "APIKEY-XYZ-987654";
+    }
+
     public User registerUser(String username, String password) {
         if (userRepository.findByUsername(username).isPresent()) {
             throw new RuntimeException("Username already exists");
@@ -35,5 +40,10 @@ public class UserService {
     // Example usage of hardcoded credentials (not for production)
     public boolean isAdminPassword(String password) {
         return password.equals(getHardcodedAdminPassword());
+    }
+
+    // Expose hardcoded API key via method (security flaw)
+    public String exposeApiKey() {
+        return getHardcodedApiKey();
     }
 }
